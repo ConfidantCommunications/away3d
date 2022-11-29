@@ -159,7 +159,7 @@ class View3D extends Sprite
 	}
 	*/
 	
-	public function new(scene:Scene3D = null, camera:Camera3D = null, renderer:RendererBase = null, forceSoftware:Bool = false, profile:String = "baseline", contextIndex:Int=-1)
+	public function new(scene:Null<Scene3D> = null, camera:Null<Camera3D> = null, renderer:Null<RendererBase> = null, forceSoftware:Bool = false, profile:String = "baseline", contextIndex:Int=-1)
 	{
 		super();
 		_profile = profile;
@@ -769,11 +769,15 @@ class View3D extends Sprite
 		Stage3DProxy.drawTriangleCount = 0;
 		
 		//if context3D has Disposed by the OS,don't render at this frame
-		if (stage3DProxy.context3D == null || !stage3DProxy.recoverFromDisposal()) {
+		try {
+			if (stage3DProxy.context3D == null || !stage3DProxy.recoverFromDisposal()) {
+				_backBufferInvalid = true;
+				return;
+			}
+		} catch (e:Dynamic){
 			_backBufferInvalid = true;
 			return;
 		}
-		
 		// reset or update render settings
 		if (_backBufferInvalid)
 			updateBackBuffer();

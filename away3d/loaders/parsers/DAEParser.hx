@@ -858,28 +858,32 @@ class DAEParser extends ParserBase
 				mat = new ColorMultiPassMaterial(diffuse.color.rgb);
 		}
 		Debug.trace("mat = " + materialMode);
-		if (mat != null) {
-			if (materialMode < 2) {
-				cast(mat, SinglePassMaterialBase).ambientMethod = new BasicAmbientMethod();
-				cast(mat, SinglePassMaterialBase).diffuseMethod = new BasicDiffuseMethod();
-				cast(mat, SinglePassMaterialBase).specularMethod = new BasicSpecularMethod();
-				cast(mat, SinglePassMaterialBase).colorTransform = new ColorTransform();
-				cast(mat, SinglePassMaterialBase).ambientColor = (ambient != null && ambient.color != null) ? ambient.color.rgb : 0x303030;
-				cast(mat, SinglePassMaterialBase).specularColor = (specular != null && specular.color != null) ? specular.color.rgb : 0x202020;
-				cast(mat, SinglePassMaterialBase).gloss = shininess;
-				cast(mat, SinglePassMaterialBase).ambient = 1;
-				cast(mat, SinglePassMaterialBase).specular = 1;
-			} else {
-				cast(mat, MultiPassMaterialBase).ambientMethod = new BasicAmbientMethod();
-				cast(mat, MultiPassMaterialBase).diffuseMethod = new BasicDiffuseMethod();
-				cast(mat, MultiPassMaterialBase).specularMethod = new BasicSpecularMethod();
-				cast(mat, MultiPassMaterialBase).ambientColor = (ambient != null && ambient.color != null) ? ambient.color.rgb : 0x303030;
-				cast(mat, MultiPassMaterialBase).specularColor = (specular != null && specular.color != null) ? specular.color.rgb : 0x202020;
-				cast(mat, MultiPassMaterialBase).gloss = shininess;
-				cast(mat, MultiPassMaterialBase).ambient = 1;
-				cast(mat, MultiPassMaterialBase).specular = 1;
-				
+		try{
+			if (mat != null) {
+				if (materialMode < 2) {
+					cast(mat, SinglePassMaterialBase).ambientMethod = new BasicAmbientMethod();
+					cast(mat, SinglePassMaterialBase).diffuseMethod = new BasicDiffuseMethod();
+					cast(mat, SinglePassMaterialBase).specularMethod = new BasicSpecularMethod();
+					cast(mat, SinglePassMaterialBase).colorTransform = new ColorTransform();
+					cast(mat, SinglePassMaterialBase).ambientColor = (ambient != null && ambient.color != null) ? ambient.color.rgb : 0x303030;
+					cast(mat, SinglePassMaterialBase).specularColor = (specular != null && specular.color != null) ? specular.color.rgb : 0x202020;
+					cast(mat, SinglePassMaterialBase).gloss = shininess;
+					cast(mat, SinglePassMaterialBase).ambient = 1;
+					cast(mat, SinglePassMaterialBase).specular = 1;
+				} else {
+					cast(mat, MultiPassMaterialBase).ambientMethod = new BasicAmbientMethod();
+					cast(mat, MultiPassMaterialBase).diffuseMethod = new BasicDiffuseMethod();
+					cast(mat, MultiPassMaterialBase).specularMethod = new BasicSpecularMethod();
+					cast(mat, MultiPassMaterialBase).ambientColor = (ambient != null && ambient.color != null) ? ambient.color.rgb : 0x303030;
+					cast(mat, MultiPassMaterialBase).specularColor = (specular != null && specular.color != null) ? specular.color.rgb : 0x202020;
+					cast(mat, MultiPassMaterialBase).gloss = shininess;
+					cast(mat, MultiPassMaterialBase).ambient = 1;
+					cast(mat, MultiPassMaterialBase).specular = 1;
+					
+				}
 			}
+		} catch (e:Dynamic){
+			trace(e);
 		}
 		
 		mat.name = material.id;
